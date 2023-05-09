@@ -1,0 +1,136 @@
+# --- (1) ATOMS DEFINITIONS and ALIGNMENT ---
+
+protein: GROUP ATOMS=1-7654
+WHOLEMOLECULES ENTITY0=protein
+FIT_TO_TEMPLATE STRIDE=1 REFERENCE=../npt_eqm3_align2z_CA.pdb TYPE=OPTIMAL
+
+
+##################################################################################################
+# --- (2) CONTACT DESCRIPTORS ---
+
+#....Reactive Criteria 1............
+Dnu1: COORDINATION GROUPA=3026 GROUPB=7699 SWITCH={RATIONAL D_0=0.0 R_0=0.55 NN=6 MM=10}
+Dnu2: COORDINATION GROUPA=3027 GROUPB=7699 SWITCH={RATIONAL D_0=0.0 R_0=0.55 NN=6 MM=10}
+
+Nu1-CH2OH: COORDINATION GROUPA=3026 GROUPB=7716 SWITCH={RATIONAL D_0=0.0 R_0=0.35 NN=6 MM=10}
+Nu2-CH2OH: COORDINATION GROUPA=3027 GROUPB=7716 SWITCH={RATIONAL D_0=0.0 R_0=0.35 NN=6 MM=10}
+
+Nu1-acid: COORDINATION GROUPA=3026 GROUPB=3606 SWITCH={RATIONAL D_0=0.0 R_0=0.35 NN=6 MM=10}
+Nu2-acid: COORDINATION GROUPA=3027 GROUPB=3606 SWITCH={RATIONAL D_0=0.0 R_0=0.35 NN=6 MM=10}
+
+#....Reactive Criteria 2............
+Dacid: COORDINATION GROUPA=3607 GROUPB=7698 SWITCH={RATIONAL D_0=0.0 R_0=0.45 NN=6 MM=10}
+
+#....Reactive Criteria 3............
+strHbond-O21: COORDINATION GROUPA=4654 GROUPB=7703 SWITCH={RATIONAL D_0=0.0 R_0=0.25 NN=6 MM=10}
+strHbond-O22: COORDINATION GROUPA=4655 GROUPB=7703 SWITCH={RATIONAL D_0=0.0 R_0=0.25 NN=6 MM=10}
+
+strHbond-O31: COORDINATION GROUPA=4654 GROUPB=7707 SWITCH={RATIONAL D_0=0.0 R_0=0.25 NN=6 MM=10}
+strHbond-O32: COORDINATION GROUPA=4655 GROUPB=7707 SWITCH={RATIONAL D_0=0.0 R_0=0.25 NN=6 MM=10}
+
+D300_torsion: TORSION ATOMS=4646,4648,4650,4653 #N-CA-CB-CG torsion of residue 300
+cos_torsion: CUSTOM ARG=D300_torsion FUNC=cos(x) PERIODIC=-1,1
+
+# --- Z-distance DESCRIPTOR ---
+D197CA: GROUP ATOMS=3020
+lig: CENTER ATOMS=7678-7719  #The reactive rings of the ligand (residue 500 and 501)
+D_nu-lig: DISTANCE ATOMS=D197CA,lig COMPONENTS
+
+
+##################################################################################################
+# --- (3) WATER DESCRIPTORS ---
+
+WO: GROUP ATOMS=7765-67992:3  #water molecules
+
+ligO4: GROUP ATOMS=7698   #Solvation of ligand (resid 500)
+ligO2: GROUP ATOMS=7703   #Solvation of ligand (resid 501)
+ligO3: GROUP ATOMS=7707   #Solvation of ligand (resid 501)
+ligO6: GROUP ATOMS=7716   #Solvation of ligand (resid 501)
+
+D197: GROUP ATOMS=3025   #Bindong pose selected atom
+D300: GROUP ATOMS=4653   #Bindong pose selected atom
+
+# Hydration spots
+ v1:    FIXEDATOM AT=4.4475,4.6727,5.4427
+ v2:    FIXEDATOM AT=4.5887,4.7353,5.3047
+ v3:    FIXEDATOM AT=4.7473,4.5323,5.2327
+ v4:    FIXEDATOM AT=4.7796,4.6265,5.1469
+ v5:    FIXEDATOM AT=4.9981,4.6302,5.2047
+ v6:    FIXEDATOM AT=5.1255,4.7229,5.2486
+ v7:    FIXEDATOM AT=5.0725,4.8750,5.2862
+ v8:    FIXEDATOM AT=4.8496,4.9004,5.2126
+ v9:    FIXEDATOM AT=5.0243,5.0961,5.3479
+v10:    FIXEDATOM AT=5.0874,5.2668,5.3580
+
+
+# --- DESCRIPTORS ---
+NligO2: COORDINATION GROUPA=ligO2 GROUPB=WO SWITCH={RATIONAL D_0=0.0 R_0=0.25 NN=6 MM=10 D_MAX=0.6} NLIST NL_CUTOFF=2.0 NL_STRIDE=20
+NligO3: COORDINATION GROUPA=ligO3 GROUPB=WO SWITCH={RATIONAL D_0=0.0 R_0=0.25 NN=6 MM=10 D_MAX=0.6} NLIST NL_CUTOFF=2.0 NL_STRIDE=20
+NligO4: COORDINATION GROUPA=ligO4 GROUPB=WO SWITCH={RATIONAL D_0=0.0 R_0=0.25 NN=6 MM=10 D_MAX=0.6} NLIST NL_CUTOFF=2.0 NL_STRIDE=20
+NligO6: COORDINATION GROUPA=ligO6 GROUPB=WO SWITCH={RATIONAL D_0=0.0 R_0=0.25 NN=6 MM=10 D_MAX=0.6} NLIST NL_CUTOFF=2.0 NL_STRIDE=20
+
+ND197: COORDINATION GROUPA=D197 GROUPB=WO SWITCH={RATIONAL D_0=0.0 R_0=0.35 NN=6 MM=10 D_MAX=0.8} NLIST NL_CUTOFF=2.0 NL_STRIDE=20
+ND300: COORDINATION GROUPA=D300 GROUPB=WO SWITCH={RATIONAL D_0=0.0 R_0=0.35 NN=6 MM=10 D_MAX=0.8} NLIST NL_CUTOFF=2.0 NL_STRIDE=20
+
+cvwo1:  COORDINATION GROUPA=v1  GROUPB=WO SWITCH={RATIONAL D_0=0.0 R_0=0.25 NN=2 MM=6 D_MAX=0.6} NLIST NL_CUTOFF=2.0 NL_STRIDE=20
+cvwo2:  COORDINATION GROUPA=v2  GROUPB=WO SWITCH={RATIONAL D_0=0.0 R_0=0.25 NN=2 MM=6 D_MAX=0.6} NLIST NL_CUTOFF=2.0 NL_STRIDE=20
+cvwo3:  COORDINATION GROUPA=v3  GROUPB=WO SWITCH={RATIONAL D_0=0.0 R_0=0.25 NN=2 MM=6 D_MAX=0.6} NLIST NL_CUTOFF=2.0 NL_STRIDE=20
+cvwo4:  COORDINATION GROUPA=v4  GROUPB=WO SWITCH={RATIONAL D_0=0.0 R_0=0.25 NN=2 MM=6 D_MAX=0.6} NLIST NL_CUTOFF=2.0 NL_STRIDE=20
+cvwo5:  COORDINATION GROUPA=v5  GROUPB=WO SWITCH={RATIONAL D_0=0.0 R_0=0.25 NN=2 MM=6 D_MAX=0.6} NLIST NL_CUTOFF=2.0 NL_STRIDE=20
+cvwo6:  COORDINATION GROUPA=v6  GROUPB=WO SWITCH={RATIONAL D_0=0.0 R_0=0.25 NN=2 MM=6 D_MAX=0.6} NLIST NL_CUTOFF=2.0 NL_STRIDE=20
+cvwo7:  COORDINATION GROUPA=v7  GROUPB=WO SWITCH={RATIONAL D_0=0.0 R_0=0.25 NN=2 MM=6 D_MAX=0.6} NLIST NL_CUTOFF=2.0 NL_STRIDE=20
+cvwo8:  COORDINATION GROUPA=v8  GROUPB=WO SWITCH={RATIONAL D_0=0.0 R_0=0.25 NN=2 MM=6 D_MAX=0.6} NLIST NL_CUTOFF=2.0 NL_STRIDE=20
+cvwo9:  COORDINATION GROUPA=v9  GROUPB=WO SWITCH={RATIONAL D_0=0.0 R_0=0.25 NN=2 MM=6 D_MAX=0.6} NLIST NL_CUTOFF=2.0 NL_STRIDE=20
+cvwo10: COORDINATION GROUPA=v10 GROUPB=WO SWITCH={RATIONAL D_0=0.0 R_0=0.25 NN=2 MM=6 D_MAX=0.6} NLIST NL_CUTOFF=2.0 NL_STRIDE=20
+
+
+# ---(4) Wall on distance to prevent exit of ligand 
+LOWER_WALLS AT=0.65 ARG=D_nu-lig.z KAPPA=10000.0 EXP=2 LABEL=lower_wall_z
+UPPER_WALLS AT=1.00 ARG=D_nu-lig.z KAPPA=10000.0 EXP=2 LABEL=upper_wall_z
+
+
+##################################################################################################
+# --- (5) Two deepTDA CVs ---
+
+s_contact: PYTORCH_MODEL FILE=../contactCV_model.ptc ARG=Dnu1,Dnu2,Nu1-CH2OH,Nu2-CH2OH,Nu1-acid,Nu2-acid,strHbond-O21,strHbond-O22,strHbond-O31,strHbond-O32,Dacid,cos_torsion,D_nu-lig.z
+
+UPPER_WALLS AT=15.0  ARG=s_contact.node-0 KAPPA=5000.0 EXP=2 LABEL=upper_wall_s_contact
+LOWER_WALLS AT=-15.0 ARG=s_contact.node-0 KAPPA=5000.0 EXP=2 LABEL=lower_wall_s_contact
+
+#............................................................................................
+s_water: PYTORCH_MODEL FILE=../water_model.ptc ARG=cvwo1,cvwo2,cvwo3,cvwo4,cvwo5,cvwo6,cvwo7,cvwo8,cvwo9,cvwo10,NligO2,NligO3,NligO4,NligO6,ND197,ND300
+
+UPPER_WALLS AT=15.0  ARG=s_water.node-0 KAPPA=5000.0 EXP=2 LABEL=upper_wall_s_water
+LOWER_WALLS AT=-15.0 ARG=s_water.node-0 KAPPA=5000.0 EXP=2 LABEL=lower_wall_s_water
+
+
+#.....normalized deepCV................................................................
+n_s_contact: CUSTOM ARG=s_contact.node-0 FUNC=(x+14.0)/28.0 PERIODIC=NO
+n_s_water: CUSTOM ARG=s_water.node-0 FUNC=(x+14.0)/28.0 PERIODIC=NO
+
+
+#.....pathCV................................................................
+pth: PATH REFERENCE=../final_path.pdb TYPE=EUCLIDEAN LAMBDA=200.0
+UPPER_WALLS AT=0.01 ARG=pth.zpath KAPPA=500000 EXP=2 LABEL=upper_pthz
+
+
+
+##################################################################################################
+# --- (6) OPES  ---
+
+OPES_METAD ...
+  LABEL=opes
+  ARG=pth.spath
+  FILE=../Kernels.data
+  STATE_RFILE=../compressed.Kernels
+  STATE_WFILE=../compressed.Kernels
+  PACE=500
+  BARRIER=55
+  TEMP=300.0
+#  RESTART=YES
+  STATE_WSTRIDE=5000
+  WALKERS_MPI
+... OPES_METAD
+
+
+PRINT STRIDE=100 ARG=s_contact.node-0,s_water.node-0,n_s_contact,n_s_water,pth.spath,pth.zpath,*.bias,opes.rct,opes.zed,opes.neff,opes.nker FILE=COLVAR FMT=%8.4f
