@@ -5,11 +5,10 @@
 # https://doi.org/10.26434/chemrxiv-2023-h1498
 
 
-This archive contains all the input files needed to reproduce the results of the paper.
+This archive contains all the input files needed to reproduce the results of the paper, except for the initial configurations. All the initial configurations are deposited in the Supplementary Information (SI) of the paper.
 
 
 In the 'classical_unbiased_MD' folder the following files are available:
-- A compressed folder named 'init_config' containing all the initial conformations.
 - A folder named 'input' containing all the GROMACS inputs for classical energy minimization, MD equilibration and production runs.
 - A folder named 'unbiasedCVs' containing PLUMED input and coordinate alignment file. This are required to produce Figure 4b.
 
@@ -19,7 +18,7 @@ In the 'QM-MM_MD' folder the following files are available:
 - Discovery simulations separately with two different graph CVs:
   * 34 atoms within the adjacency matrix (34atomsCV) and 8 atoms within the adjacency matrix (8atomsCV)
 - Each of these two folders have subfolders containing inputs for running discovery simulations from each intial conforamtions.
-  * A compressed folder 'init_config' conains all the initial conformations.
+  * A compressed 'init_config' conains all the initial conformations for the runs with 34atomsCV.
   * A folder 'input' contains CP2K input files for each initial conformations and they define the QM region and the QM/MM interface.
   * plumed.dat is the PLUMED input, num_cv.pt file contains the spectral graph CV.
   * label.dat mentions all the atoms included within the adjacency matrix.
