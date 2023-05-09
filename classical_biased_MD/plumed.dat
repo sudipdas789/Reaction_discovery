@@ -2,7 +2,7 @@
 
 protein: GROUP ATOMS=1-7654
 WHOLEMOLECULES ENTITY0=protein
-FIT_TO_TEMPLATE STRIDE=1 REFERENCE=../npt_eqm3_align2z_CA.pdb TYPE=OPTIMAL
+FIT_TO_TEMPLATE STRIDE=1 REFERENCE=npt_eqm3_align2z_CA.pdb TYPE=OPTIMAL
 
 
 ##################################################################################################
@@ -92,13 +92,13 @@ UPPER_WALLS AT=1.00 ARG=D_nu-lig.z KAPPA=10000.0 EXP=2 LABEL=upper_wall_z
 ##################################################################################################
 # --- (5) Two deepTDA CVs ---
 
-s_contact: PYTORCH_MODEL FILE=../contactCV_model.ptc ARG=Dnu1,Dnu2,Nu1-CH2OH,Nu2-CH2OH,Nu1-acid,Nu2-acid,strHbond-O21,strHbond-O22,strHbond-O31,strHbond-O32,Dacid,cos_torsion,D_nu-lig.z
+s_contact: PYTORCH_MODEL FILE=contactCV_model.ptc ARG=Dnu1,Dnu2,Nu1-CH2OH,Nu2-CH2OH,Nu1-acid,Nu2-acid,strHbond-O21,strHbond-O22,strHbond-O31,strHbond-O32,Dacid,cos_torsion,D_nu-lig.z
 
 UPPER_WALLS AT=15.0  ARG=s_contact.node-0 KAPPA=5000.0 EXP=2 LABEL=upper_wall_s_contact
 LOWER_WALLS AT=-15.0 ARG=s_contact.node-0 KAPPA=5000.0 EXP=2 LABEL=lower_wall_s_contact
 
 #............................................................................................
-s_water: PYTORCH_MODEL FILE=../water_model.ptc ARG=cvwo1,cvwo2,cvwo3,cvwo4,cvwo5,cvwo6,cvwo7,cvwo8,cvwo9,cvwo10,NligO2,NligO3,NligO4,NligO6,ND197,ND300
+s_water: PYTORCH_MODEL FILE=water_model.ptc ARG=cvwo1,cvwo2,cvwo3,cvwo4,cvwo5,cvwo6,cvwo7,cvwo8,cvwo9,cvwo10,NligO2,NligO3,NligO4,NligO6,ND197,ND300
 
 UPPER_WALLS AT=15.0  ARG=s_water.node-0 KAPPA=5000.0 EXP=2 LABEL=upper_wall_s_water
 LOWER_WALLS AT=-15.0 ARG=s_water.node-0 KAPPA=5000.0 EXP=2 LABEL=lower_wall_s_water
@@ -110,7 +110,7 @@ n_s_water: CUSTOM ARG=s_water.node-0 FUNC=(x+14.0)/28.0 PERIODIC=NO
 
 
 #.....pathCV................................................................
-pth: PATH REFERENCE=../final_path.pdb TYPE=EUCLIDEAN LAMBDA=200.0
+pth: PATH REFERENCE=final_path.pdb TYPE=EUCLIDEAN LAMBDA=200.0
 UPPER_WALLS AT=0.01 ARG=pth.zpath KAPPA=500000 EXP=2 LABEL=upper_pthz
 
 
