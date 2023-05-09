@@ -1,0 +1,119 @@
+@SET TOP amylase_ee.prmtop
+@SET FRAMEID frameID
+&GLOBAL
+  ECHO_INPUT
+  PRINT_LEVEL LOW
+  PROJECT REACT-NVT-EE-GPW
+  RUN_TYPE ENERGY_FORCE
+  SAVE_MEM TRUE
+&END GLOBAL
+
+&FORCE_EVAL
+  METHOD QMMM
+  STRESS_TENSOR ANALYTICAL
+  &DFT
+    CHARGE -2
+    MULTIPLICITY 1
+!    WFN_RESTART_FILE_NAME REACT-NVT-EE-${FRAMEID}-GPW-RESTART.wfn
+    &MGRID
+      COMMENSURATE  #mandatory to use GEEP
+      CUTOFF 300
+    &END MGRID
+
+    &LOCALIZE
+      METHOD CRAZY
+      EPS_LOCALIZATION 1.0E-8
+      &PRINT
+        ! Output the Wannier functions as cube-files
+        &WANNIER_CUBES
+        &END
+        ! Output the centers of all Wannier functions as xyz-file
+        &WANNIER_CENTERS
+           IONS+CENTERS .TRUE.
+        &END
+      &END
+    &END
+
+    &QS
+      METHOD GPW
+    &END QS
+    &SCF
+      EPS_SCF 1E-6
+      MAX_SCF 30
+      SCF_GUESS ATOMIC
+      &OT
+        MINIMIZER DIIS
+        PRECONDITIONER FULL_SINGLE_INVERSE
+        SAFE_DIIS TRUE
+      &END OT
+      &OUTER_SCF
+        EPS_SCF 1E-6
+        MAX_SCF 10
+      &END OUTER_SCF
+    &END SCF
+    &XC
+      &XC_FUNCTIONAL PBE
+      &END XC_FUNCTIONAL
+    &END XC
+  &END DFT
+  &MM
+    &FORCEFIELD
+      EI_SCALE14 0.8333
+      VDW_SCALE14 0.5000
+      PARMTYPE AMBER
+      PARM_FILE_NAME $TOP
+      &SPLINE
+        EMAX_SPLINE 1.0E8
+        RCUT_NB [angstrom] 10
+      &END SPLINE
+    &END FORCEFIELD
+    &POISSON
+      &EWALD
+        EWALD_TYPE SPME
+        ALPHA .40
+        GMAX 80
+      &END EWALD
+    &END POISSON
+  &END MM
+  &QMMM
+    ECOUPL GAUSS
+    USE_GEEP_LIB 6
+    @INCLUDE ./forceeval_qmmm.cp2k-${FRAMEID}.inc
+  &END QMMM
+  &SUBSYS
+    &CELL
+      ABC 83.247300000000000	96.12510000000000	84.761200000000000
+    &END CELL
+    &TOPOLOGY
+      CONN_FILE_FORMAT AMBER
+      CONN_FILE_NAME $TOP
+      COORDINATE XYZ
+      COORD_FILE_NAME ./${FRAMEID}.xyz
+    &END TOPOLOGY
+    &KIND NA+
+     ELEMENT Na
+    &END KIND
+    &KIND CL-
+     ELEMENT Cl
+    &END KIND
+    &KIND C
+      BASIS_SET DZVP-GTH-PBE
+      POTENTIAL GTH-PBE-q4
+    &END KIND
+    &KIND O
+      BASIS_SET DZVP-GTH-PBE
+      POTENTIAL GTH-PBE-q6
+    &END KIND
+    &KIND H
+      BASIS_SET DZVP-GTH-PBE
+      POTENTIAL GTH-PBE-q1
+    &END KIND
+  &END SUBSYS
+&END FORCE_EVAL
+
+
+!&EXT_RESTART
+!  RESTART_FILE_NAME REACT-NVT-EE-${FRAMEID}-GPW-1.restart
+!!  RESTART_COUNTERS .FALSE.
+!!  RESTART_THERMOSTAT .FALSE.
+!&END
