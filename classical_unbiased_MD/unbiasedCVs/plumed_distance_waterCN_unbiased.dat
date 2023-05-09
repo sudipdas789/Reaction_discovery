@@ -1,0 +1,20 @@
+# --- ATOMS DEFINITIONS and ALIGNMENT ---
+protein: GROUP ATOMS=1-7654
+WHOLEMOLECULES ENTITY0=protein
+FIT_TO_TEMPLATE STRIDE=1 REFERENCE=npt_eqm3_align2z_CA.pdb TYPE=OPTIMAL
+
+
+# --- Distance DESCRIPTOR ---
+D197CA: GROUP ATOMS=3020
+active_lig: CENTER ATOMS=7698-7719  #The reactive rings of the ligand (residue 500-O4 and whole residue 501)
+D_nu-lig: DISTANCE ATOMS=D197CA,active_lig
+#D_nu-lig: DISTANCE ATOMS=D197CA,active_lig COMPONENTS
+
+
+# --- Water CN around active part of the ligand ---
+WO: GROUP ATOMS=7765-67992:3  #water molecules
+
+waterCN: COORDINATION GROUPA=active_lig GROUPB=WO SWITCH={RATIONAL D_0=0.0 R_0=0.6 NN=10 MM=20 D_MAX=0.7} NLIST NL_CUTOFF=2.0 NL_STRIDE=20
+
+
+PRINT STRIDE=1 ARG=D_nu-lig,waterCN FILE=distance_waterCN_unbiased FMT=%8.4f
