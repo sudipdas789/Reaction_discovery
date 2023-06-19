@@ -2,8 +2,7 @@
 
 # Sudip Das, Umberto Raucci, Rui P. P. Neves, Maria J. Ramos, Michele Parrinello 
 
-# https://doi.org/10.26434/chemrxiv-2023-h1498
-
+# https://doi.org/10.1021/acscatal.3c01473
 
 This archive contains all the input files needed to reproduce the results of the paper.
 
